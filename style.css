@@ -1,0 +1,459 @@
+/* =========================================
+   1. RESET & CÀI ĐẶT CHUNG
+   ========================================= */
+   * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+    user-select: none; 
+}
+
+body {
+    /* Nền kem nhẹ với dấu chân mèo */
+    background-color: #fffdf9; 
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e6dace' fill-opacity='0.6'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    
+    font-family: 'Itim', Arial, sans-serif;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    transition: background 0.5s ease;
+    cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat984.cur'), auto;
+}
+
+/* =========================================
+   2. CẤU TRÚC MÀN HÌNH (SCREEN)
+   ========================================= */
+.screen {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0; left: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   3. PHẦN INTRO (THU ĐỢI) & NÚT BẮT ĐẦU
+   ========================================= */
+#screen-intro {
+    z-index: 100;
+    color: #fff;
+}
+
+.intro-container {
+    text-align: left;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Căn giữa nút bắt đầu */
+    align-items: center; 
+}
+
+.line {
+    width: 100%;
+    font-size: 32px;
+    line-height: 1.5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    justify-content: flex-start; /* Chữ căn trái */
+}
+
+.bold-text {
+    font-size: 45px;
+    font-weight: bold;
+    color: #ffd1dc;
+    text-transform: uppercase;
+    opacity: 0;
+}
+
+.normal-text {
+    font-size: 32px;
+    color: #ffffff;
+    opacity: 0;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.part-1, .part-3 { animation: fadeInSlide 1.5s ease forwards 0.5s; }
+.part-2, .part-4 { animation: fadeInSlide 1.5s ease forwards 2.5s; } /* Chỉnh thời gian cho mượt */
+
+/* --- NÚT CLICK TO START --- */
+#start-btn-container {
+    margin-top: 50px;
+    opacity: 0; /* Mặc định ẩn */
+    cursor: pointer;
+    transition: opacity 1s ease;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+#start-btn-container.show {
+    opacity: 1; /* Hiện lên khi có class show */
+}
+
+.blink-text {
+    font-size: 20px;
+    color: #fff;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.5; transform: scale(1); }
+}
+
+/* ======================================================
+   MOBILE FIX: CHO PHÉP CUỘN & THU NHỎ GIAO DIỆN
+   (Dán đè đoạn này vào cuối file style.css)
+   ====================================================== */
+@media (max-width: 600px) {
+    /* 1. MỞ KHÓA CUỘN TRANG (Quan trọng nhất) */
+    body {
+        overflow-y: auto !important; /* Cho phép lướt dọc */
+        height: auto !important;     /* Chiều cao tự động theo nội dung */
+        min-height: 100vh;
+        padding-bottom: 50px; /* Chừa khoảng trống cuối cùng để dễ bấm nút */
+        /* Giữ ảnh nền cố định khi cuộn */
+        background-attachment: fixed; 
+    }
+
+    /* Sửa lỗi màn hình bị cắt cụt */
+    .screen {
+        position: relative !important; /* Không ghim chặt màn hình nữa */
+        height: auto !important;       /* Chiều cao giãn nở theo nội dung */
+        min-height: 100vh;
+        top: 0 !important;
+        display: none; /* Mặc định ẩn, JS sẽ bật flex sau */
+        padding-top: 50px; /* Cách lề trên một chút */
+        padding-bottom: 50px;
+    }
+
+    /* Khi màn hình active thì hiện lên (dạng flex để căn giữa nếu nội dung ít) */
+    .screen.active {
+        display: flex !important;
+    }
+
+    /* 2. THU NHỎ KHUNG CHỨA (Giao diện Mini) */
+    .container {
+        width: 90% !important;
+        max-width: 100% !important;
+        padding: 15px !important; /* Giảm đệm cho gọn */
+        margin-top: 20px;
+    }
+
+    /* Tiêu đề nhỏ lại */
+    h1, h2 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 3. CHỈNH LƯỚI MÓN ĂN (GRID) */
+    .food-grid, .places-grid {
+        /* Giữ 2 cột cho dễ nhìn (3 cột trên đt sẽ bé như hạt gạo) */
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 10px !important; /* Khoảng cách giữa các ô nhỏ lại */
+        margin-bottom: 20px !important;
+    }
+
+    /* Thu nhỏ từng ô món ăn */
+    .food-item, .place-item {
+        padding: 8px !important; /* Viền mỏng lại */
+        border-width: 2px !important;
+    }
+
+    /* Thu nhỏ Ảnh */
+    .food-item img, .place-item img {
+        height: 90px !important; /* Ảnh thấp xuống (đang là 120px) */
+        border-radius: 10px !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* Thu nhỏ Chữ tên món */
+    .food-item span, .place-item span {
+        font-size: 13px !important; /* Chữ bé xinh */
+        line-height: 1.3;
+    }
+
+    /* 4. CHỈNH PHẦN INTRO (THU ĐỢI) */
+    .intro-container {
+        padding: 0 10px;
+        margin-top: -50px; /* Đẩy lên cao chút */
+    }
+    .line {
+        display: block !important; 
+        width: 100% !important;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .bold-text { display: inline !important; font-size: 28px !important; margin-right: 5px; }
+    .normal-text { display: inline !important; font-size: 18px !important; }
+
+    /* 5. NÚT BẮT ĐẦU */
+    #start-btn-container {
+        margin-top: 20px;
+        padding: 10px 20px;
+    }
+    .blink-text { font-size: 15px; white-space: nowrap; }
+
+    /* 6. NÚT CHỐT ĐƠN / MESSENGER */
+    button, #msgBtn {
+        padding: 10px 25px !important; /* Nút nhỏ lại xíu */
+        font-size: 16px !important;
+        width: auto !important; /* Không cho full màn hình */
+    }
+}
+
+/* =========================================
+   4. CONTAINER CHUNG (KHUNG TRẮNG)
+   ========================================= */
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    border: 5px solid #ffc4d6; 
+    width: 95%;
+    max-width: 800px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.container::before, .container::after {
+    content: '';
+    position: absolute;
+    top: -45px;
+    width: 80px;
+    height: 80px;
+    background-color: #ffc4d6; 
+    border-radius: 15px;
+    z-index: -1;
+    border: 4px solid #fff;
+}
+.container::before { left: 80px; transform: rotate(-20deg); }
+.container::after { right: 80px; transform: rotate(20deg); }
+
+h1, h2 {
+    color: #d4a373;
+    font-size: 26px;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+/* =========================================
+   5. VIDEO & BUTTONS
+   ========================================= */
+.video-container video {
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+button {
+    font-family: 'Itim', cursive;
+    padding: 12px 30px;
+    min-width: 120px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: transform 0.2s;
+}
+
+#yesBtn, #submitBtn, #finalBtn {
+    background-color: #ffafcc;
+    box-shadow: 0 4px 0 #e598b2;
+    color: #fff;
+}
+#yesBtn:hover, #submitBtn:hover, #finalBtn:hover {
+    transform: translateY(-2px);
+    background-color: #ff9ebb;
+}
+
+#noBtn {
+    background-color: #bde0fe; 
+    box-shadow: 0 4px 0 #a2c2e0;
+    color: #555;
+}
+
+/* =========================================
+   6. GRID MÓN ĂN & ĐỊA ĐIỂM
+   ========================================= */
+.food-grid, .places-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.food-grid { grid-template-columns: repeat(3, 1fr); }
+.places-grid { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 600px) {
+    .food-grid { grid-template-columns: 1fr 1fr; }
+    .places-grid { grid-template-columns: 1fr; }
+}
+
+.food-item, .place-item {
+    background: white;
+    border: 2px solid #f2e9e4; 
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.food-item img, .place-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 8px;
+}
+
+.place-item img {
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+    background-color: #fdfbf7;
+}
+
+.food-item span, .place-item span {
+    color: #666;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: auto;
+}
+
+.selected {
+    border-color: #ffafcc !important;
+    background-color: #fff0f5 !important;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 175, 204, 0.3);
+}
+.selected span { color: #ff8fa3 !important; }
+
+/* =========================================
+   7. TRANG CẢM ƠN (GLASSMORPHISM)
+   ========================================= */
+.glass-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 40px 30px;
+    border-radius: 40px;
+    border: 3px solid #fff;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    text-align: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    max-width: 500px;
+}
+
+.heartbeat-text {
+    color: #d4a373;
+    font-size: 28px;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    text-shadow: 2px 2px 0 #fff;
+    animation: beat 1.5s infinite;
+}
+@keyframes beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.image-box { 
+    margin: 20px 0; 
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.image-box img {
+    width: 100%; 
+    max-width: 280px;
+    border-radius: 20px;
+    border: 5px solid white;
+    transform: none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.summary-box {
+    background: #fff;
+    border: 2px dashed #d4a373;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 15px;
+    width: 100%;
+}
+#summaryText { color: #555; font-size: 19px; line-height: 1.6; }
+b { color: #d4a373; }
+
+.floating-heart {
+    position: absolute; 
+    top: -15px; 
+    right: 40px; 
+    font-size: 40px;
+    animation: floatUp 2s ease-in-out infinite;
+}
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-30px); opacity: 0; }
+}
+
+.falling-heart {
+    position: fixed;
+    z-index: 999;
+}
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}

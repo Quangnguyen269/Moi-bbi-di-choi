@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gửi Dương...</title>
+    <meta property="og:title" content="Gửi Dương... ">
+    
+    <meta property="og:description" content="Bấm vào đây để mở quà nha!">
+    
+    <meta property="og:image" content="./anh-bia.jpg">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://quangnguyen269.github.io/moi-duong-di-choi/">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="nhac-nen.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="screen-intro" class="screen active">
+        <div class="intro-container">
+            <div class="line">
+                <span class="bold-text part-1">THU</span>
+                <span class="normal-text part-2">qua Đông đến...</span>
+            </div>
+            <div class="line">
+                <span class="bold-text part-3">ĐỢI</span>
+                <span class="normal-text part-4">Hiền đồng ý tối thứ 7 đi chơi =))) </span>
+            </div>
+
+            <div id="start-btn-container" onclick="startJourney()">
+                <p class="blink-text">🎵 Chạm vào đây để bắt đầu 🎵</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-video" class="screen">
+        <div class="container">
+            <div class="video-container">
+                <video id="mainVideo" loop muted playsinline>
+                    <source src="video-doc.mp4" type="video/mp4">
+                    Trình duyệt không hỗ trợ video.
+                </video>
+            </div>
+            <h1>Tối thứ 7 này đi chơi với tớ nhé? </h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="nextScreen('screen-food')">Okay</button>
+                <button id="noBtn">Hông ( buồn á 🥺 ) </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-food" class="screen">
+        <div class="container">
+            <h2>Yeahhh! Cậu đồng ý rùi! 🥰 <br> Thế mình đi ăn gì nè?</h2>
+            <div class="food-grid">
+                <div class="food-item" onclick="selectFood(this, 'Bún mắm')">
+                    <img src="mon1.jpg"><span>Bún Mắm chú tám</span>
+                </div>
+                <div class="food-item" onclick="selectFood(this, 'Nem nướng')">
+                    <img src="mon2.jpg"><span>Nem nướng Yên Phụ</span>
+                </div>
+                <div class="food-item" onclick="selectFood(this, 'Dimsum')">
+                    <img src="mon3.jpg"><span>Dimsum</span>
+                </div>
+                <div class="food-item" onclick="selectFood(this, 'Bánh rán')">
+                    <img src="mon4.jpg"><span>Bánh rán mặn Hồ Tây</span>
+                </div>
+                <div class="food-item" onclick="selectFood(this, 'Đậu phụ')">
+                    <img src="mon5.jpg"><span>Đậu phụ niêu sốt cay</span>
+                </div>
+                <div class="food-item" onclick="selectFood(this, 'Món thứ 6')">
+                    <img src="mon6.jpg"><span>phở chiên phồng</span>
+                </div>
+            </div>
+            <button id="submitBtn" onclick="checkFood()">Chốt đơn ❤️</button>
+        </div>
+    </div>
+
+    <div id="screen-place" class="screen">
+        <div class="container">
+            <h2>Ăn xong rùi mình đi <br> nói chuyện xíu nhaa? 😽</h2>
+            <div class="places-grid">
+                <div class="place-item" onclick="selectPlace(this, 'Chỗ có mấy con mèo')">
+                    <img src="place1.jpg" ><span>chỗ có mấy con mềuuu</span>
+                </div>
+                <div class="place-item" onclick="selectPlace(this, 'Lên sân thượng hóng gió')">
+                    <img src="place2.jpg"><span>Lên sân thượng hóng gió</span>
+                </div>
+                <div class="place-item" onclick="selectPlace(this, 'Confused')">
+                    <img src="place3.jpg"><span>Confused</span>
+                </div>
+                <div class="place-item" onclick="selectPlace(this, 'Caffe chill')">
+                    <img src="place4.jpg"><span>caffe chill</span>
+                </div>
+            </div>
+            <button id="finalBtn" onclick="checkPlace()">Chốt kèo luôn ❤️</button>
+        </div>
+    </div>
+
+    <div id="screen-thanks" class="screen">
+        <div class="glass-container">
+            <h1 class="heartbeat-text">Cảm ơn cậu vì đã <br> đồng ý đi chơi với tớ! 🥰</h1>
+            <div class="image-box">
+                <img src="cat-flower.jpg" alt="Mèo tặng hoa">
+                <div class="floating-heart">❤️😻😽❄☃️</div>
+            </div>
+            <div class="summary-box">
+                <p id="summaryText">Đang tải lịch hẹn...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
